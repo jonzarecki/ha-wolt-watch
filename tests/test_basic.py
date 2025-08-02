@@ -36,11 +36,11 @@ def test_hacs_json():
     
     # Check required fields
     assert "name" in hacs_config
-    assert "domains" in hacs_config
+    assert "country" in hacs_config
     
     # Check values
     assert hacs_config["name"] == "Wolt Watch"
-    assert "wolt_watch" in hacs_config["domains"]
+    assert hacs_config["country"] == "IL"
 
 
 def test_version_file():

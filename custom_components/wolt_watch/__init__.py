@@ -27,6 +27,9 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
+# Config schema for hassfest validation
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
 # Service schema
 SERVICE_START_SCHEMA = vol.Schema(
     {
