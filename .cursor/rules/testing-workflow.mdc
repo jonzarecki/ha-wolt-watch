@@ -1,0 +1,53 @@
+---
+alwaysApply: true
+description: Testing workflow enforcement after large changes
+---
+
+# Testing Workflow Requirements
+
+## Mandatory Testing After Large Changes
+
+**ALWAYS run tests after significant code changes** before committing or pushing:
+
+### What Constitutes a "Large Change"
+- Modifying core integration files: [custom_components/wolt_watch/__init__.py](mdc:custom_components/wolt_watch/__init__.py)
+- Updating configuration: [custom_components/wolt_watch/manifest.json](mdc:custom_components/wolt_watch/manifest.json), [custom_components/wolt_watch/services.yaml](mdc:custom_components/wolt_watch/services.yaml)
+- Adding/modifying constants: [custom_components/wolt_watch/const.py](mdc:custom_components/wolt_watch/const.py)
+- Exception handling changes: [custom_components/wolt_watch/exceptions.py](mdc:custom_components/wolt_watch/exceptions.py)
+- Frontend modifications: [www/wolt-watch-card.js](mdc:www/wolt-watch-card.js)
+- HACS configuration: [hacs.json](mdc:hacs.json)
+- Documentation updates affecting functionality
+
+### Required Testing Commands
+
+```bash
+# 1. Activate virtual environment (ALWAYS FIRST)
+source .venv/bin/activate
+
+# 2. Run full test suite
+python -m pytest tests/ -v
+
+# 3. Validate configuration files
+python -c "import json; json.load(open('custom_components/wolt_watch/manifest.json')); print('✅ manifest.json valid')"
+python -c "import json; json.load(open('hacs.json')); print('✅ hacs.json valid')"
+python -c "import yaml; yaml.safe_load(open('custom_components/wolt_watch/services.yaml')); print('✅ services.yaml valid')"
+
+# 4. Optional: Run with coverage
+python -m pytest tests/ --cov=custom_components.wolt_watch --cov-report=term-missing
+```
+
+### Pre-Commit Checklist
+
+Before any git commit involving large changes:
+
+- [ ] Virtual environment activated (`(ha-wolt-watch)` in prompt)
+- [ ] All 24 tests passing (`python -m pytest tests/ -v`)
+- [ ] Configuration files valid (JSON/YAML syntax)
+- [ ] No Python syntax errors in modified files
+- [ ] [requirements-dev.txt](mdc:requirements-dev.txt) updated if dependencies changed
+
+### Integration with Development
+
+- **Before pushing to GitHub**: Run tests to avoid CI failures
+- **After merging branches**: Re-run tests to ensure compatibility
+- **Before creating releases**: Full test suite + validation

@@ -1,0 +1,67 @@
+---
+globs: hacs.json,custom_components/wolt_watch/manifest.json,*.md
+description: HACS integration requirements and best practices
+---
+
+# HACS Integration Guidelines
+
+This integration follows **HACS (Home Assistant Community Store)** best practices for custom integrations.
+
+## Required Files
+
+### HACS Configuration
+- [hacs.json](mdc:hacs.json) - HACS metadata and repository configuration
+
+### Integration Core
+- [custom_components/wolt_watch/manifest.json](mdc:custom_components/wolt_watch/manifest.json) - Integration manifest
+- [custom_components/wolt_watch/__init__.py](mdc:custom_components/wolt_watch/__init__.py) - Main integration
+- [custom_components/wolt_watch/services.yaml](mdc:custom_components/wolt_watch/services.yaml) - Service definitions
+
+### Documentation
+- [README.md](mdc:README.md) - Installation and usage instructions
+- [info.md](mdc:info.md) - HACS information page
+
+## HACS Requirements Compliance
+
+### ✅ Bronze Quality Tier Requirements
+- Valid `manifest.json` with all required fields
+- Proper repository structure  
+- GitHub releases for versioning
+- Comprehensive documentation
+- Automated testing
+
+### ✅ Additional Best Practices
+- **Quality Scale tracking** via [quality_scale.yaml](mdc:quality_scale.yaml)
+- **Type hints** throughout codebase
+- **Custom exceptions** for error handling
+- **Comprehensive test suite** (24 tests)
+- **Security policy** via [SECURITY.md](mdc:SECURITY.md)
+- **Dependabot** for automated dependency updates
+- **Issue templates** for standardized bug reports
+- **Brand assets** preparation
+
+## Installation Methods
+
+### HACS Installation
+Users can install via HACS using the repository URL:
+```
+https://github.com/jonzarecki/ha-wolt-watch
+```
+
+### Manual Installation
+1. Download the `custom_components/wolt_watch/` directory
+2. Place in Home Assistant's `custom_components/` folder
+3. Add Lovelace card: `www/wolt-watch-card.js`
+
+## Release Process
+
+1. Update [VERSION](mdc:VERSION) file
+2. Create GitHub release with tag (e.g., `v0.1.0`)
+3. GitHub Actions automatically validates and publishes
+
+## Validation
+
+The integration is validated by:
+- **HACS validation** via `.github/workflows/validate.yml`
+- **hassfest validation** via `.github/workflows/hassfest.yml`
+- **Automated testing** on every push and PR

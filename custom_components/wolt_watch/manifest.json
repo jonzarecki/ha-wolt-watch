@@ -1,0 +1,15 @@
+{
+  "domain": "wolt_watch",
+  "name": "Wolt Watch",
+  "version": "0.1.0",
+  "documentation": "https://github.com/jonzarecki/ha-wolt-watch",
+  "issue_tracker": "https://github.com/jonzarecki/ha-wolt-watch/issues",
+  "codeowners": ["@jonzarecki"],
+  "requirements": ["wolt-api-mcp @ git+https://github.com/jonzarecki/wolt-sdk.git"],
+  "dependencies": [],
+  "config_flow": false,
+  "after_dependencies": [],
+  "iot_class": "cloud_polling",
+  "quality_scale": "bronze",
+  "integration_type": "service"
+}

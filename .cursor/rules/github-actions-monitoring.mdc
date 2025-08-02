@@ -1,0 +1,82 @@
+---
+description: GitHub Actions monitoring and CI status checking procedures
+---
+
+# GitHub Actions Monitoring Guidelines
+
+## When Asked About GitHub Actions Status
+
+### ALWAYS Check CI Status Before Responding
+
+When asked "will GitHub Actions pass?" or similar CI-related questions:
+
+1. **Check Current Repository State**
+   ```bash
+   # Run local validation first
+   python -m pytest tests/ -v
+   python -c "import json; json.load(open('custom_components/wolt_watch/manifest.json')); print('✅ manifest.json valid')"
+   python -c "import json; json.load(open('hacs.json')); print('✅ hacs.json valid')"
+   ```
+
+2. **If CI Is Currently Running**
+   ```bash
+   # Wait for CI to complete - do this MULTIPLE times if needed
+   echo "⏳ Waiting for CI to complete..."
+   sleep 10
+   
+   echo "⏳ Still waiting for CI..."
+   sleep 10
+   
+   echo "⏳ Checking CI status again..."
+   sleep 10
+   
+   # Check GitHub Actions status (if repo is pushed)
+   # Visit: https://github.com/jonzarecki/ha-wolt-watch/actions
+   ```
+
+3. **Never Rush CI Assessment**
+   - Wait at least 30-60 seconds total if CI is running
+   - Use multiple `sleep 10` commands to ensure CI completes
+   - Check actual workflow results, not just repository state
+
+### GitHub Actions Workflows to Monitor
+
+#### Primary Workflows
+- **HACS Validation** (`.github/workflows/validate.yml`) - Runs on every push/PR
+- **Hassfest Validation** (`.github/workflows/hassfest.yml`) - HA core validation
+- **Release** (`.github/workflows/release.yml`) - Only on GitHub releases
+
+#### Expected CI Behavior
+- **HACS Validation**: Validates [hacs.json](mdc:hacs.json), repository structure
+- **Hassfest**: Validates [manifest.json](mdc:custom_components/wolt_watch/manifest.json), Python syntax
+- **Release**: Updates versions, validates before publishing
+
+### CI Monitoring Commands
+
+```bash
+# Local pre-CI validation
+source .venv/bin/activate
+python -m pytest tests/ -v --tb=short
+
+# Wait for CI completion (repeat as needed)
+sleep 10
+echo "Checking CI status..."
+
+# Validate critical files
+ls -la custom_components/wolt_watch/manifest.json
+ls -la hacs.json
+ls -la .github/workflows/
+```
+
+### Response Pattern for CI Questions
+
+1. ✅ Run local validation
+2. ⏳ Wait for CI if running (`sleep 10` multiple times)
+3. 📊 Check workflow files and requirements
+4. 🎯 Provide probability assessment based on validation results
+5. ⚠️ Note any potential issues or dependencies
+
+### Never Assume CI Results Without Waiting
+
+- **Bad**: Immediate response based only on file analysis
+- **Good**: Wait for CI completion + validate locally + check requirements

@@ -1,0 +1,78 @@
+---
+globs: tests/*.py
+description: Testing guidelines and patterns for the test suite
+---
+
+# Testing Guidelines
+
+## Test Structure
+
+This project uses **standalone unit tests** that don't require Home Assistant to be installed. Tests focus on:
+
+1. **Constants validation** - Ensuring all configuration values are correct
+2. **Project structure** - Verifying required files exist and are valid
+3. **Logic validation** - Testing core business logic without HA dependencies
+4. **Exception handling** - Validating custom exception hierarchy
+
+## Test Files
+
+- **test_basic.py** - Project structure and file validation
+- **test_const.py** - Constants and configuration validation  
+- **test_exceptions.py** - Custom exception testing
+- **test_init.py** - Integration logic and validation
+
+## Running Tests
+
+Always run tests in the virtual environment:
+
+```bash
+# Activate virtual environment first
+source .venv/bin/activate
+
+# Run all tests
+python -m pytest tests/ -v
+
+# Run specific test file
+python -m pytest tests/test_basic.py -v
+
+# Run with coverage
+python -m pytest tests/ --cov=custom_components.wolt_watch --cov-report=term-missing
+```
+
+## Test Patterns
+
+### Module Import Pattern
+```python
+# For testing modules without HA dependencies
+import importlib.util
+from pathlib import Path
+
+root_dir = Path(__file__).parent.parent
+spec = importlib.util.spec_from_file_location(
+    "const", 
+    root_dir / "custom_components" / "wolt_watch" / "const.py"
+)
+const_module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(const_module)
+```
+
+### File Validation Pattern
+```python
+def test_manifest_file():
+    """Test that manifest.json is valid JSON and has required fields."""
+    import json
+    
+    manifest_path = root_dir / "custom_components" / "wolt_watch" / "manifest.json"
+    assert manifest_path.exists()
+    
+    with open(manifest_path) as f:
+        manifest = json.load(f)
+    
+    # Check required fields
+    assert "domain" in manifest
+    assert manifest["domain"] == "wolt_watch"
+```
+
+## Test Results
+
+Current test status: **24/24 tests passing** ✅

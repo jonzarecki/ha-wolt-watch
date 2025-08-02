@@ -1,0 +1,23 @@
+# Placeholder for brand icon
+# 
+# This file serves as a placeholder to demonstrate the brands directory structure.
+# In a real implementation, you would need to:
+#
+# 1. Create a proper 256x256 PNG icon representing Wolt Watch
+# 2. Ensure it meets Home Assistant brand requirements:
+#    - Square aspect ratio (256x256)
+#    - PNG format
+#    - Optimized for web
+#    - Transparent background preferred
+#    - Properly trimmed with minimal empty space
+#
+# 3. Optionally create additional files:
+#    - logo.png (landscape logo)
+#    - icon@2x.png (512x512 hDPI version)
+#    - logo@2x.png (hDPI logo version)
+#    - dark_icon.png (dark theme optimized)
+#    - dark_logo.png (dark theme logo)
+#
+# 4. Submit to home-assistant/brands repository following their guidelines
+#
+# For now, this placeholder demonstrates the correct file structure.

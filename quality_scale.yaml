@@ -1,0 +1,42 @@
+# Integration Quality Scale Progress
+# https://developers.home-assistant.io/docs/core/integration-quality-scale/
+
+rules:
+  # Bronze Tier Requirements
+  config_flow: 
+    status: exempt
+    comment: Service-based integration doesn't require config flow UI setup
+  
+  docs_high_level_description: done
+  
+  docs_installation: done
+  
+  docs_setup: done
+  
+  test_before_setup: 
+    status: not_implemented
+    comment: Basic tests could be added in future versions
+  
+  test_config_flow:
+    status: exempt
+    comment: No config flow to test
+  
+  has_codeowners: done
+  
+  has_domain: done
+  
+  has_iot_class: done
+  
+  has_integration_type: done
+  
+  has_name: done
+  
+  has_version: done
+  
+  has_documentation: done
+  
+  has_issue_tracker: done
+  
+  has_requirements: done
+  
+  dependency_transparency: done

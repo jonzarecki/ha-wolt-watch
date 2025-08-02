@@ -1,0 +1,32 @@
+start:
+  name: Start Wolt Watch
+  description: Watch a Wolt restaurant and notify when it opens.
+  fields:
+    slug:
+      name: Restaurant Slug
+      description: The Wolt restaurant identifier (e.g., "taizu", "mcdonalds-dizengoff")
+      required: true
+      example: "taizu"
+      selector:
+        text:
+    timeout_s:
+      name: Watch Duration
+      description: How long to watch the restaurant (in seconds)
+      required: false
+      default: 7200
+      example: 7200
+      selector:
+        number:
+          min: 60
+          max: 86400
+          unit_of_measurement: "seconds"
+          mode: "box"
+    device:
+      name: Notification Device
+      description: The notify service to send notifications to (e.g., "notify.mobile_app_iphone")
+      required: true
+      example: "notify.mobile_app_iphone"
+      selector:
+        entity:
+          domain: notify
+          integration: mobile_app

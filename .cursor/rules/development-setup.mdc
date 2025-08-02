@@ -1,0 +1,52 @@
+---
+alwaysApply: true
+description: Development environment setup using uv
+---
+
+# Development Environment Setup
+
+This project uses **uv** for fast Python package management and virtual environment handling.
+
+## Virtual Environment Setup
+
+The project should always be run in a virtual environment created with `uv`:
+
+```bash
+# Create virtual environment
+uv venv --python 3.11
+
+# Activate virtual environment
+source .venv/bin/activate
+
+# Install development dependencies
+uv pip install pytest pytest-cov pyyaml voluptuous
+```
+
+## Key Files
+
+- [requirements-dev.txt](mdc:requirements-dev.txt) - Development dependencies
+- [pyproject.toml](mdc:pyproject.toml) - Project configuration and tool settings
+- [tests/](mdc:tests/) - Test suite directory
+
+## Testing
+
+All tests should be run within the virtual environment:
+
+```bash
+# Run all tests
+python -m pytest tests/ -v
+
+# Run with coverage
+python -m pytest tests/ --cov=custom_components.wolt_watch --cov-report=term-missing
+```
+
+## Dependencies
+
+- **pytest** - Testing framework
+- **pytest-cov** - Coverage reporting
+- **pyyaml** - YAML parsing for services.yaml validation
+- **voluptuous** - Schema validation (used by Home Assistant)
+
+## Virtual Environment Indicator
+
+When properly activated, your terminal prompt should show `(ha-wolt-watch)` prefix indicating the virtual environment is active.

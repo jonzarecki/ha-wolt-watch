@@ -1,0 +1,50 @@
+---
+alwaysApply: true
+description: Home Assistant Custom Integration project structure
+---
+
+# Wolt Watch - Home Assistant Custom Integration
+
+This is a HACS-compatible Home Assistant custom integration that watches Wolt restaurants and sends notifications when they open.
+
+## Core Integration Files
+
+- [custom_components/wolt_watch/__init__.py](mdc:custom_components/wolt_watch/__init__.py) - Main integration logic
+- [custom_components/wolt_watch/manifest.json](mdc:custom_components/wolt_watch/manifest.json) - Integration metadata
+- [custom_components/wolt_watch/services.yaml](mdc:custom_components/wolt_watch/services.yaml) - Service definitions
+- [custom_components/wolt_watch/const.py](mdc:custom_components/wolt_watch/const.py) - Constants and configuration
+- [custom_components/wolt_watch/exceptions.py](mdc:custom_components/wolt_watch/exceptions.py) - Custom exceptions
+
+## Lovelace Frontend
+
+- [www/wolt-watch-card.js](mdc:www/wolt-watch-card.js) - Custom Lovelace card
+
+## HACS Configuration
+
+- [hacs.json](mdc:hacs.json) - HACS metadata
+- [info.md](mdc:info.md) - HACS information page
+
+## Testing
+
+- [tests/](mdc:tests/) - Complete test suite (24 tests)
+- [tests/conftest.py](mdc:tests/conftest.py) - Test fixtures
+- [tests/test_basic.py](mdc:tests/test_basic.py) - Project structure tests
+- [tests/test_const.py](mdc:tests/test_const.py) - Constants validation tests
+- [tests/test_exceptions.py](mdc:tests/test_exceptions.py) - Exception hierarchy tests
+- [tests/test_init.py](mdc:tests/test_init.py) - Integration logic tests
+
+## GitHub Configuration
+
+- [.github/workflows/](mdc:.github/workflows/) - CI/CD workflows
+- [.github/ISSUE_TEMPLATE/](mdc:.github/ISSUE_TEMPLATE/) - Issue templates
+- [.github/dependabot.yml](mdc:.github/dependabot.yml) - Automated dependency updates
+
+## Quality Assurance
+
+- [quality_scale.yaml](mdc:quality_scale.yaml) - Home Assistant Quality Scale tracking
+- [pyproject.toml](mdc:pyproject.toml) - Python project configuration with linting rules
+- [HACS_BEST_PRACTICES_IMPLEMENTED.md](mdc:HACS_BEST_PRACTICES_IMPLEMENTED.md) - Best practices documentation
+
+## Project Background
+
+- [project_background.md](mdc:project_background.md) - Original specification and requirements

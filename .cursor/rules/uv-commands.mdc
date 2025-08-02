@@ -1,0 +1,68 @@
+---
+description: Common uv commands for this project
+---
+
+# UV Commands Reference
+
+Quick reference for common `uv` commands used in this project.
+
+## Virtual Environment Management
+
+```bash
+# Create virtual environment with Python 3.11
+uv venv --python 3.11
+
+# Activate virtual environment
+source .venv/bin/activate
+
+# Deactivate virtual environment
+deactivate
+```
+
+## Package Management
+
+```bash
+# Install packages
+uv pip install pytest pytest-cov pyyaml voluptuous
+
+# Install from requirements file
+uv pip install -r requirements-dev.txt
+
+# Update all packages
+uv pip install --upgrade-all
+
+# List installed packages
+uv pip list
+
+# Generate requirements file
+uv pip freeze > requirements-dev.txt
+```
+
+## Development Workflow
+
+```bash
+# 1. Activate virtual environment
+source .venv/bin/activate
+
+# 2. Install/update dependencies
+uv pip install -r requirements-dev.txt
+
+# 3. Run tests
+python -m pytest tests/ -v
+
+# 4. Run linting (if configured)
+python -m ruff check custom_components/
+
+# 5. Run tests with coverage
+python -m pytest tests/ --cov=custom_components.wolt_watch --cov-report=term-missing
+```
+
+## Project Dependencies
+
+Current development dependencies (see [requirements-dev.txt](mdc:requirements-dev.txt)):
+- **pytest** - Testing framework
+- **pytest-cov** - Coverage reporting  
+- **pyyaml** - YAML parsing
+- **voluptuous** - Schema validation
+- **coverage** - Coverage measurement
+- **pygments** - Syntax highlighting

@@ -1,0 +1,75 @@
+---
+globs: custom_components/**/*.py,*.json,*.yaml,*.yml
+description: Development checklist for code changes and validation
+---
+
+# Development Checklist
+
+## Before Making Changes
+
+### Environment Setup
+- [ ] Virtual environment activated: `source .venv/bin/activate`
+- [ ] Prompt shows `(ha-wolt-watch)` 
+- [ ] Dependencies up to date: `uv pip install -r requirements-dev.txt`
+
+## During Development
+
+### Code Quality Checks
+- [ ] Python syntax valid (no import errors)
+- [ ] Type hints added for new functions/methods
+- [ ] Constants imported from [const.py](mdc:custom_components/wolt_watch/const.py)
+- [ ] Custom exceptions used where appropriate
+
+### Configuration Changes
+- [ ] [manifest.json](mdc:custom_components/wolt_watch/manifest.json) updated if needed
+- [ ] [services.yaml](mdc:custom_components/wolt_watch/services.yaml) reflects service changes
+- [ ] [hacs.json](mdc:hacs.json) maintained for HACS compatibility
+
+## After Making Changes
+
+### Required Testing (MANDATORY)
+
+```bash
+# 1. Full test suite
+python -m pytest tests/ -v
+
+# 2. Configuration validation
+python -c "import json; json.load(open('custom_components/wolt_watch/manifest.json')); print('✅ manifest.json')"
+python -c "import json; json.load(open('hacs.json')); print('✅ hacs.json')"  
+python -c "import yaml; yaml.safe_load(open('custom_components/wolt_watch/services.yaml')); print('✅ services.yaml')"
+
+# 3. Python syntax check
+python -c "import py_compile; [py_compile.compile(f, doraise=True) for f in ['custom_components/wolt_watch/__init__.py', 'custom_components/wolt_watch/const.py', 'custom_components/wolt_watch/exceptions.py']]"
+```
+
+### Pre-Commit Validation
+- [ ] All 24 tests passing
+- [ ] No JSON/YAML syntax errors
+- [ ] No Python syntax errors
+- [ ] Documentation updated if API changed
+
+### Pre-Push Validation  
+- [ ] Local tests passing
+- [ ] GitHub Actions workflows will pass (run estimation)
+- [ ] [VERSION](mdc:VERSION) updated if releasing
+- [ ] Commit messages descriptive
+
+## CI/CD Considerations
+
+### Before Pushing to GitHub
+- [ ] Wait for any running CI to complete (`sleep 10` multiple times)
+- [ ] Estimate GitHub Actions success probability
+- [ ] Monitor workflows: validate.yml, hassfest.yml
+
+### Release Preparation
+- [ ] Version bumped in [VERSION](mdc:VERSION) and [manifest.json](mdc:custom_components/wolt_watch/manifest.json)
+- [ ] [HACS_BEST_PRACTICES_IMPLEMENTED.md](mdc:HACS_BEST_PRACTICES_IMPLEMENTED.md) updated
+- [ ] All validations passing
+
+## Emergency Fixes
+
+For critical issues:
+1. Create hotfix branch
+2. **STILL RUN TESTS** (never skip)
+3. Fast-track through validation
+4. Monitor CI immediately after push

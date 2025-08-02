@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate release
+        uses: hacs/action@main
+        with:
+          category: integration
+
+      - name: Update VERSION file
+        run: |
+          echo "${GITHUB_REF#refs/tags/}" > VERSION
+
+      - name: Update manifest version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" custom_components/wolt_watch/manifest.json
+
+      - name: Commit version updates
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add VERSION custom_components/wolt_watch/manifest.json
+          git diff --staged --quiet || git commit -m "Update version to ${GITHUB_REF#refs/tags/}"
+          git push

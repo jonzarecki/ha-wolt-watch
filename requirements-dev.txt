@@ -1,0 +1,14 @@
+certifi==2025.7.14
+charset-normalizer==3.4.2
+coverage==7.10.1
+idna==3.10
+iniconfig==2.1.0
+packaging==25.0
+pluggy==1.6.0
+pygments==2.19.2
+pytest==8.4.1
+pytest-cov==6.2.1
+pyyaml==6.0.2
+requests==2.32.4
+urllib3==2.5.0
+voluptuous==0.15.2
