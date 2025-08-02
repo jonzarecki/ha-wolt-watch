@@ -45,7 +45,7 @@ This integration follows **HACS (Home Assistant Community Store)** best practice
 ### HACS Installation
 Users can install via HACS using the repository URL:
 ```
-https://github.com/jonzarecki/ha-wolt-watch
+https://github.com/jzarecki/ha-wolt-watch
 ```
 
 ### Manual Installation
