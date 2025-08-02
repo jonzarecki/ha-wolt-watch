@@ -2,7 +2,7 @@
   "name": "Wolt Watch",
   "content_in_root": false,
   "render_readme": true,
-  "domains": ["integration", "lovelace"],
+  "domains": ["wolt_watch"],
   "country": "ISR",
   "homeassistant": "2024.1.0",
   "zip_release": false

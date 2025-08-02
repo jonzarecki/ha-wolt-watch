@@ -40,8 +40,7 @@ def test_hacs_json():
     
     # Check values
     assert hacs_config["name"] == "Wolt Watch"
-    assert "integration" in hacs_config["domains"]
-    assert "lovelace" in hacs_config["domains"]
+    assert "wolt_watch" in hacs_config["domains"]
 
 
 def test_version_file():
