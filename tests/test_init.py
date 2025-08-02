@@ -20,11 +20,11 @@ spec.loader.exec_module(const_module)
 # Extract constants for testing
 DOMAIN = const_module.DOMAIN
 SERVICE_START = const_module.SERVICE_START
-DEFAULT_TIMEOUT_SECONDS = const_module.DEFAULT_TIMEOUT_SECONDS
-MIN_TIMEOUT_SECONDS = const_module.MIN_TIMEOUT_SECONDS
-MAX_TIMEOUT_SECONDS = const_module.MAX_TIMEOUT_SECONDS
+DEFAULT_TIMEOUT_MINUTES = const_module.DEFAULT_TIMEOUT_MINUTES
+MIN_TIMEOUT_MINUTES = const_module.MIN_TIMEOUT_MINUTES
+MAX_TIMEOUT_MINUTES = const_module.MAX_TIMEOUT_MINUTES
 CONF_SLUG = const_module.CONF_SLUG
-CONF_TIMEOUT_S = const_module.CONF_TIMEOUT_S
+CONF_TIMEOUT_M = const_module.CONF_TIMEOUT_M
 CONF_DEVICE = const_module.CONF_DEVICE
 
 
@@ -32,11 +32,11 @@ def test_constants_imported():
     """Test that constants are properly defined."""
     assert DOMAIN == "wolt_watch"
     assert SERVICE_START == "start"
-    assert DEFAULT_TIMEOUT_SECONDS == 7200
-    assert MIN_TIMEOUT_SECONDS == 60
-    assert MAX_TIMEOUT_SECONDS == 86400
+    assert DEFAULT_TIMEOUT_MINUTES == 30
+    assert MIN_TIMEOUT_MINUTES == 1
+    assert MAX_TIMEOUT_MINUTES == 1440
     assert CONF_SLUG == "slug"
-    assert CONF_TIMEOUT_S == "timeout_s"
+    assert CONF_TIMEOUT_M == "timeout_m"
     assert CONF_DEVICE == "device"
 
 
@@ -67,18 +67,18 @@ def test_restaurant_name_formatting():
 
 def test_timeout_validation_logic():
     """Test timeout validation logic."""
-    # Test valid timeouts
-    valid_timeout = 3600
-    assert MIN_TIMEOUT_SECONDS <= valid_timeout <= MAX_TIMEOUT_SECONDS
+    # Test valid timeouts (in minutes)
+    valid_timeout = 60  # 60 minutes
+    assert MIN_TIMEOUT_MINUTES <= valid_timeout <= MAX_TIMEOUT_MINUTES
     
     # Test invalid timeouts
-    too_low = 30
-    too_high = 100000
-    assert too_low < MIN_TIMEOUT_SECONDS
-    assert too_high > MAX_TIMEOUT_SECONDS
+    too_low = 0
+    too_high = 2000
+    assert too_low < MIN_TIMEOUT_MINUTES
+    assert too_high > MAX_TIMEOUT_MINUTES
     
     # Test default timeout
-    assert MIN_TIMEOUT_SECONDS <= DEFAULT_TIMEOUT_SECONDS <= MAX_TIMEOUT_SECONDS
+    assert MIN_TIMEOUT_MINUTES <= DEFAULT_TIMEOUT_MINUTES <= MAX_TIMEOUT_MINUTES
 
 
 def test_integration_file_structure():

@@ -129,10 +129,11 @@ class WoltWatchCard extends LitElement {
       return;
     }
 
-    // Call the service
+    // Call the service (convert seconds to minutes)
+    const timeoutMinutes = Math.round(timeoutSeconds / 60);
     this.hass.callService("wolt_watch", "start", {
       slug: slug,
-      timeout_s: timeoutSeconds,
+      timeout_m: timeoutMinutes,
       device: device,
     });
 

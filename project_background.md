@@ -35,7 +35,7 @@ Layer	Choice	Reason
 Polling logic	Custom integration (custom_components/wolt_watch)	Removes Pyscript dependency; auto-installs wolt-sdk via manifest.json.
 UI	Lovelace card (www/wolt-watch-card.js, LitElement)	Ships with repo, appears under Add Card → Custom.
 Packaging	HACS repo with "domains": ["integration","lovelace"]	One install brings both backend & card.
-Service schema	slug (str), timeout_s (int, default 7200), device (notify entity)	Mirrors card inputs.
+Service schema	slug (str), timeout_m (int, default 30), device (notify entity)	Mirrors card inputs.
 Poll interval	60 s (config constant)	Polite to Wolt; easy to tweak.
 
 
@@ -72,7 +72,8 @@ api = WoltAPI()
 async def async_setup(hass, config):
     async def _start(call):
         slug      = call.data["slug"]
-        timeout_s = call.data.get("timeout_s", 7200)
+        timeout_m = call.data.get("timeout_m", 30)
+        timeout_s = timeout_m * 60  # Convert to seconds
         device    = call.data["device"]
 
         async def worker():

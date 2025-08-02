@@ -15,14 +15,14 @@ from homeassistant.helpers import config_validation as cv
 from .const import (
     DOMAIN,
     DEFAULT_SCAN_INTERVAL,
-    DEFAULT_TIMEOUT_SECONDS,
+    DEFAULT_TIMEOUT_MINUTES,
     BACKOFF_INTERVAL_SECONDS,
     SERVICE_START,
     CONF_SLUG,
-    CONF_TIMEOUT_S,
+    CONF_TIMEOUT_M,
     CONF_DEVICE,
-    MIN_TIMEOUT_SECONDS,
-    MAX_TIMEOUT_SECONDS,
+    MIN_TIMEOUT_MINUTES,
+    MAX_TIMEOUT_MINUTES,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -31,8 +31,8 @@ _LOGGER = logging.getLogger(__name__)
 SERVICE_START_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_SLUG): cv.string,
-        vol.Optional(CONF_TIMEOUT_S, default=DEFAULT_TIMEOUT_SECONDS): vol.All(
-            vol.Coerce(int), vol.Range(min=MIN_TIMEOUT_SECONDS, max=MAX_TIMEOUT_SECONDS)
+        vol.Optional(CONF_TIMEOUT_M, default=DEFAULT_TIMEOUT_MINUTES): vol.All(
+            vol.Coerce(int), vol.Range(min=MIN_TIMEOUT_MINUTES, max=MAX_TIMEOUT_MINUTES)
         ),
         vol.Required(CONF_DEVICE): cv.string,
     }
@@ -45,10 +45,13 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     async def _start_watch(call: ServiceCall) -> None:
         """Start watching a Wolt restaurant."""
         slug: str = call.data[CONF_SLUG]
-        timeout_s: int = call.data.get(CONF_TIMEOUT_S, DEFAULT_TIMEOUT_SECONDS)
+        timeout_m: int = call.data.get(CONF_TIMEOUT_M, DEFAULT_TIMEOUT_MINUTES)
         device: str = call.data[CONF_DEVICE]
+        
+        # Convert minutes to seconds for internal calculations
+        timeout_s = timeout_m * 60
 
-        _LOGGER.info("Starting Wolt watch for %s (timeout: %ds)", slug, timeout_s)
+        _LOGGER.info("Starting Wolt watch for %s (timeout: %dm/%ds)", slug, timeout_m, timeout_s)
 
         async def worker() -> None:
             """Worker task to poll Wolt API."""

@@ -86,7 +86,7 @@ You can also call the service directly in automations or scripts:
 service: wolt_watch.start
 data:
   slug: "taizu"
-  timeout_s: 7200  # 2 hours
+  timeout_m: 30  # 30 minutes
   device: "notify.mobile_app_iphone"
 ```
 
@@ -95,7 +95,7 @@ data:
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
 | `slug` | string | Yes | - | Restaurant identifier from Wolt URL |
-| `timeout_s` | integer | No | 7200 | Watch duration in seconds (60-86400) |
+| `timeout_m` | integer | No | 30 | Watch duration in minutes (1-1440) |
 | `device` | string | Yes | - | Notify service entity (e.g., `notify.mobile_app_*`) |
 
 ## Finding Restaurant Slugs

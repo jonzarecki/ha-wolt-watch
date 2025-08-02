@@ -9,17 +9,17 @@ start:
       example: "taizu"
       selector:
         text:
-    timeout_s:
+    timeout_m:
       name: Watch Duration
-      description: How long to watch the restaurant (in seconds)
+      description: How long to watch the restaurant (in minutes)
       required: false
-      default: 7200
-      example: 7200
+      default: 30
+      example: 30
       selector:
         number:
-          min: 60
-          max: 86400
-          unit_of_measurement: "seconds"
+          min: 1
+          max: 1440
+          unit_of_measurement: "minutes"
           mode: "box"
     device:
       name: Notification Device
