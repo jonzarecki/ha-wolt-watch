@@ -99,7 +99,7 @@ class WoltWatchCard extends LitElement {
     `;
   }
 
-  _startWatch() {
+  async _startWatch() {
     const slugElement = this.shadowRoot.getElementById("slug");
     const durationElement = this.shadowRoot.getElementById("duration");
     const deviceElement = this.shadowRoot.getElementById("device");
@@ -129,22 +129,33 @@ class WoltWatchCard extends LitElement {
       return;
     }
 
-    // Call the service (convert seconds to minutes)
-    const timeoutMinutes = Math.round(timeoutSeconds / 60);
-    this.hass.callService("wolt_watch", "start", {
-      slug: slug,
-      timeout_m: timeoutMinutes,
-      device: device,
-    });
+    try {
+      // Check if the service exists
+      if (!this.hass.services.wolt_watch || !this.hass.services.wolt_watch.start) {
+        this._showError("Wolt Watch integration not loaded. Please restart Home Assistant and try again.");
+        return;
+      }
 
-    // Show success notification
-    this._fireEvent("hass-notification", {
-      message: `Now watching ${slug.replace(/-/g, " ").replace(/\\b\\w/g, l => l.toUpperCase())}...`,
-    });
+      // Call the service (convert seconds to minutes)
+      const timeoutMinutes = Math.round(timeoutSeconds / 60);
+      await this.hass.callService("wolt_watch", "start", {
+        slug: slug,
+        timeout_m: timeoutMinutes,
+        device: device,
+      });
 
-    // Clear form
-    slugElement.value = "";
-    deviceElement.value = "";
+      // Show success notification
+      this._fireEvent("hass-notification", {
+        message: `Now watching ${slug.replace(/-/g, " ").replace(/\b\w/g, l => l.toUpperCase())}...`,
+      });
+
+      // Clear form
+      slugElement.value = "";
+      deviceElement.value = "";
+      
+    } catch (error) {
+      this._showError(`Failed to start watching: ${error.message}`);
+    }
   }
 
   _showError(message) {

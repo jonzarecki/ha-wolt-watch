@@ -6,7 +6,7 @@
   "config_flow": false,
   "dependencies": [],
   "documentation": "https://github.com/jzarecki/ha-wolt-watch",
-  "integration_type": "service",
+  "integration_type": "hub",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/jzarecki/ha-wolt-watch/issues",
   "quality_scale": "bronze",

@@ -27,8 +27,10 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
-# Config schema for hassfest validation
-CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+# Config schema - allow empty config for out-of-box experience
+CONFIG_SCHEMA = vol.Schema({
+    vol.Optional(DOMAIN): vol.Schema({})
+}, extra=vol.ALLOW_EXTRA)
 
 # Service schema
 SERVICE_START_SCHEMA = vol.Schema(

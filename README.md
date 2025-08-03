@@ -1,185 +1,148 @@
-# Wolt Watch - Home Assistant Integration
+# Wolt Watch - Home Assistant Custom Integration
 
-[![GitHub Release][releases-shield]][releases]
-[![GitHub Activity][commits-shield]][commits]
-[![License][license-shield]](LICENSE)
-[![hacs][hacsbadge]][hacs]
+A Home Assistant custom integration that watches Wolt restaurants and sends notifications when they open. Perfect for getting notified when your favorite restaurant becomes available for delivery!
 
-![Project Maintenance][maintenance-shield]
-[![GitHub Release Date][releases-date-shield]][releases]
+## ✨ Features
 
-[![Community Forum][forum-shield]][forum]
+- 🍕 **Watch any Wolt restaurant** by entering its slug (from the Wolt URL)
+- ⏰ **Configurable watch duration** (from 1 minute to 24 hours)
+- 📱 **Mobile notifications** to any Home Assistant mobile app device
+- 🎨 **Beautiful Lovelace card** with intuitive UI
+- 🔧 **No configuration required** - works out of the box!
 
-_Integration to watch Wolt restaurants and get notified when they open._
+## 🚀 Installation
 
-## Quick Start
+### HACS Installation (Recommended)
 
-**Installation via HACS (Recommended):**
-
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=jonzarecki&repository=ha-wolt-watch&category=integration)
-
-**Add Dashboard Card:**
-
-[![Open your Home Assistant instance and show the dashboard with a specific view.](https://my.home-assistant.io/badges/lovelace_dashboard.svg)](https://my.home-assistant.io/redirect/lovelace/default_view?show_add_card&card_type=custom:wolt-watch-card)
-
-## About
-
-Wolt Watch provides a simple one-click way to monitor when your favorite Wolt restaurants change from closed to open status. Perfect for those special restaurants that have limited hours or unpredictable opening times.
-
-### Features
-
-- 🍕 **One-click restaurant monitoring** - Just enter the restaurant slug and start watching
-- 📱 **Mobile notifications** - Get push notifications directly to your phone
-- ⏰ **Configurable duration** - Set how long to watch (default 2 hours)
-- 🧹 **No persistent entities** - Keeps your Home Assistant instance clean
-- 🎯 **Dashboard integration** - Easy-to-use Lovelace card
-- 🔒 **Bronze Quality Tier** - Meets Home Assistant integration quality standards
-- 🛡️ **Type Safe** - Full type annotations for better reliability
-- 🧪 **Tested** - Includes automated tests for core functionality
-
-## Installation
-
-### HACS (Recommended)
-
-1. **Install the repository**:
-   - Click the badge above or manually add this repository to HACS
-   - Restart Home Assistant
-
-2. **Add the dashboard card**:
-   - Go to your dashboard in edit mode
-   - Click "Add Card" → Search for "Wolt Watch Card"
-   - Add the card to your dashboard
+1. Open HACS in Home Assistant
+2. Go to "Integrations"
+3. Click the three dots menu → "Custom repositories"
+4. Add repository URL: `https://github.com/jzarecki/ha-wolt-watch`
+5. Category: "Integration"
+6. Click "Add"
+7. Find "Wolt Watch" in HACS and install it
+8. **Restart Home Assistant**
 
 ### Manual Installation
 
-1. Copy the `custom_components/wolt_watch` directory to your Home Assistant's `custom_components` directory
-2. Copy `www/wolt-watch-card.js` to your `www` directory  
-3. Add the card resource in your dashboard configuration:
-   ```yaml
-   resources:
-     - url: /local/wolt-watch-card.js
-       type: module
-   ```
-4. Restart Home Assistant
+1. Download the latest release
+2. Copy the `custom_components/wolt_watch` folder to your Home Assistant `custom_components` directory
+3. Copy `www/wolt-watch-card.js` to your Home Assistant `www` directory
+4. **Restart Home Assistant**
 
-## Usage
+## 📖 Usage
 
-### Using the Dashboard Card
+### Adding the Card
 
-1. **Find your restaurant slug**: 
-   - Go to Wolt website/app
-   - Navigate to your desired restaurant
-   - Copy the slug from the URL (e.g., `taizu`, `mcdonalds-dizengoff`)
+1. Go to any Lovelace dashboard
+2. Click "Edit Dashboard"
+3. Click "Add Card"
+4. Search for "Wolt Watch Card"
+5. Add the card - no configuration needed!
 
-2. **Configure the watch**:
-   - Enter the restaurant slug
-   - Set how long to watch (default 2 hours)
-   - Select your mobile device for notifications
+### Using the Card
 
-3. **Start watching**: Click "Start Watching" and you'll get a notification when the restaurant opens
+1. **Restaurant Slug**: Enter the restaurant identifier from the Wolt URL
+   - Example: For `https://wolt.com/en/isr/tel-aviv/restaurant/taizu`, use `taizu`
+   - Example: For `https://wolt.com/en/isr/tel-aviv/restaurant/mcdonalds-dizengoff`, use `mcdonalds-dizengoff`
 
-### Using the Service Directly
+2. **Watch Duration**: Set how long to monitor the restaurant (1 minute to 24 hours)
 
-You can also call the service directly in automations or scripts:
+3. **Notification Device**: Select which mobile device should receive the notification
 
-```yaml
-service: wolt_watch.start
-data:
-  slug: "taizu"
-  timeout_m: 30  # 30 minutes
-  device: "notify.mobile_app_iphone"
-```
+4. **Click "Start Watching"**: The integration will monitor the restaurant and notify you when it opens!
 
-### Service Parameters
+## 🔧 Advanced Configuration
 
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `slug` | string | Yes | - | Restaurant identifier from Wolt URL |
-| `timeout_m` | integer | No | 30 | Watch duration in minutes (1-1440) |
-| `device` | string | Yes | - | Notify service entity (e.g., `notify.mobile_app_*`) |
+### Manual Card Registration (if needed)
 
-## Finding Restaurant Slugs
-
-Restaurant slugs can be found in the Wolt URL. For example:
-- `https://wolt.com/en/isr/tel-aviv/restaurant/taizu` → slug is `taizu`
-- `https://wolt.com/en/isr/tel-aviv/restaurant/mcdonalds-dizengoff` → slug is `mcdonalds-dizengoff`
-
-## How It Works
-
-1. **Polling**: The integration polls the Wolt API every 60 seconds
-2. **State tracking**: It remembers if the restaurant was already open to avoid duplicate notifications
-3. **Smart notifications**: Only sends notification on the first "closed → open" transition
-4. **Auto cleanup**: Tasks automatically terminate after timeout or successful notification
-
-## Troubleshooting
-
-### Common Issues
-
-**Integration not loading:**
-- Check that `wolt-sdk` is properly installed: `pip install wolt-sdk`
-- Verify all files are in the correct directories
-- Check Home Assistant logs for error messages
-- Restart Home Assistant after installation
-
-**No notifications received:**
-- Verify your mobile device entity ID is correct (check Developer Tools → States)
-- Check that Mobile App integration is working
-- Test notifications with Developer Tools → Services
-- Ensure device format is correct: `notify.mobile_app_yourdevice`
-
-**Restaurant not found:**
-- Double-check the restaurant slug from the Wolt URL
-- Ensure the restaurant is available in your location
-- Try a different restaurant to test functionality
-- Check if the restaurant has regular opening hours
-
-**HACS Installation Issues:**
-- Ensure you have HACS installed and configured
-- Check that your Home Assistant version is 2024.1.0 or newer
-- Clear browser cache if the integration doesn't appear in UI
-
-### Debug Logging
-
-To enable debug logging, add this to your `configuration.yaml`:
+If the card doesn't appear automatically, add this to your `configuration.yaml`:
 
 ```yaml
-logger:
-  default: info
-  logs:
-    custom_components.wolt_watch: debug
+lovelace:
+  resources:
+    - url: /local/wolt-watch-card.js
+      type: module
 ```
 
-## Rate Limiting
+### Integration Setup (usually automatic)
 
-The integration is designed to be respectful of Wolt's API:
-- Polls every 60 seconds (configurable in code)
-- Backs off to 90 seconds on API errors
-- Terminates automatically to avoid indefinite polling
+The integration loads automatically. If needed, you can explicitly enable it in `configuration.yaml`:
 
-## Contributing
+```yaml
+wolt_watch:
+```
 
-Contributions are welcome! Please read the [Contributing Guidelines](CONTRIBUTING.md) first.
+## 🛠 Development
 
-## License
+### Requirements
+
+- Python 3.11+
+- Home Assistant 2023.1+
+
+### Setup Development Environment
+
+```bash
+# Clone the repository
+git clone https://github.com/jzarecki/ha-wolt-watch.git
+cd ha-wolt-watch
+
+# Create virtual environment
+uv venv --python 3.11
+source .venv/bin/activate
+
+# Install development dependencies
+uv pip install pytest pytest-cov pyyaml voluptuous
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+python -m pytest tests/ -v
+
+# Run with coverage
+python -m pytest tests/ --cov=custom_components.wolt_watch --cov-report=term-missing
+
+# Validate configuration files
+python -c "import json; json.load(open('custom_components/wolt_watch/manifest.json')); print('✅ manifest.json valid')"
+python -c "import json; json.load(open('hacs.json')); print('✅ hacs.json valid')"
+python -c "import yaml; yaml.safe_load(open('custom_components/wolt_watch/services.yaml')); print('✅ services.yaml valid')"
+```
+
+## 📝 How It Works
+
+1. **Restaurant Monitoring**: Uses the Wolt API to check if a restaurant is open
+2. **Polling**: Checks every 30 seconds (with smart backoff on errors)
+3. **Notification**: Sends a mobile notification when the restaurant opens
+4. **Timeout**: Stops watching after the specified duration
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests: `python -m pytest tests/ -v`
+5. Submit a pull request
+
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Credits
+## 🆘 Support
 
-- Built by [jonzarecki](https://github.com/jonzarecki)
-- Uses [wolt-sdk](https://pypi.org/project/wolt-sdk/) for Wolt API integration
-- Inspired by the Home Assistant community's need for restaurant monitoring
+- 🐛 **Bug Reports**: [Open an issue](https://github.com/jzarecki/ha-wolt-watch/issues)
+- 💡 **Feature Requests**: [Start a discussion](https://github.com/jzarecki/ha-wolt-watch/discussions)
+- 📖 **Documentation**: [Project Wiki](https://github.com/jzarecki/ha-wolt-watch/wiki)
+
+## 🎯 Roadmap
+
+- [ ] Support for multiple restaurants simultaneously
+- [ ] Restaurant status dashboard
+- [ ] Integration with Home Assistant automations
+- [ ] Support for more delivery platforms
+- [ ] Restaurant availability history
 
 ---
 
-[commits-shield]: https://img.shields.io/github/commit-activity/y/jonzarecki/ha-wolt-watch.svg?style=for-the-badge
-[commits]: https://github.com/jonzarecki/ha-wolt-watch/commits/main
-[hacs]: https://github.com/hacs/integration
-[hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
-[license-shield]: https://img.shields.io/github/license/jonzarecki/ha-wolt-watch.svg?style=for-the-badge
-[maintenance-shield]: https://img.shields.io/badge/maintainer-%40jonzarecki-blue.svg?style=for-the-badge
-[releases-shield]: https://img.shields.io/github/release/jonzarecki/ha-wolt-watch.svg?style=for-the-badge
-[releases]: https://github.com/jonzarecki/ha-wolt-watch/releases
-[releases-date-shield]: https://img.shields.io/github/release-date/jonzarecki/ha-wolt-watch.svg?style=for-the-badge
-[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge
-[forum]: https://community.home-assistant.io/
+Made with ❤️ for the Home Assistant community
