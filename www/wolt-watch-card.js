@@ -90,7 +90,7 @@ class WoltWatchCard extends LitElement {
               @click="${this._startWatch}"
               style="width: 100%;"
             >
-              <ha-icon icon="mdi:eye" slot="icon"></ha-icon>
+              <ha-icon icon="mdi:food-takeout-box" slot="icon"></ha-icon>
               Start Watching
             </mwc-button>
           </div>
